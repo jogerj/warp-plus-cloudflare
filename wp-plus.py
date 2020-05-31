@@ -6,6 +6,7 @@ import string
 import time
 import os
 import sys
+import pathlib
 os.system("title WARP-PLUS-CLOUDFLARE By ALIILAPRO (version 3.0.0)")
 os.system('cls' if os.name == 'nt' else 'clear')
 print('      _______ _      __________________       _______ _______ _______ _______\n'
@@ -24,7 +25,18 @@ print ("[+] THIS SCRIPT CODDED BY ALIILAPRO")
 print ("[-] SITE: aliilapro.github.io") 
 print ("[-] TELEGRAM: aliilapro")
 print ("--------")
-referrer = input("[#] Enter the WARP+ ID:")
+
+def newID():
+    trueInput = False
+    while not trueInput:
+        referrer = input("[#] Enter the WARP+ ID:")
+        userInput = input(f"({referrer}) is it correct? (y/n):")
+        if userInput == "y":
+            with open("referrer.txt","w") as file:
+                file.write(referrer)
+            trueInput = True
+    return referrer
+
 def genString(stringLength):
 	try:
 		letters = string.ascii_letters + string.digits
@@ -63,12 +75,28 @@ def run():
 	except Exception as error:
 		print(error)	
 
+if pathlib.Path("referrer.txt").exists():
+    trueInput = False
+    while not trueInput:
+        userInput = input("Do you want to use saved WARP+ ID? (y/n):")
+        if userInput == "y":
+            with open("referrer.txt","r") as file:
+                referrer = file.read().strip()
+            trueInput = True
+        elif userInput == "n":
+            referrer = newID()
+            trueInput = True
+        else:
+            print(f"\"{userInput}\" is not a valid parameter.")
+else:
+    referrer = newID()
+
 g = 0
 b = 0
 while True:
 	result = run()
 	if result == 200:
-		g = g + 1
+		g += 1
 		os.system('cls' if os.name == 'nt' else 'clear')
 		print("")
 		print("                  WARP-PLUS-CLOUDFLARE (script)" + " By ALIILAPRO")
@@ -90,4 +118,4 @@ while True:
 		print("")
 		print("[:(] Error when connecting to server.")
 		print(f"[#] Total: {g} Good {b} Bad")
-		b = b + 1	
+		b += 1	
