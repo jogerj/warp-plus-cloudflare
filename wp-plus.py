@@ -112,10 +112,10 @@ while True:
 		print("[*] After 18 seconds, a new request will be sent.")
 		time.sleep(18)
 	else:
+		b += 1
 		os.system('cls' if os.name == 'nt' else 'clear')
 		print("")
 		print("                  WARP-PLUS-CLOUDFLARE (script)" + " By ALIILAPRO")
 		print("")
 		print("[:(] Error when connecting to server.")
 		print(f"[#] Total: {g} Good {b} Bad")
-		b += 1	
