@@ -27,15 +27,15 @@ print ("[-] TELEGRAM: aliilapro")
 print ("--------")
 
 def newID():
-    trueInput = False
-    while not trueInput:
-        referrer = input("[#] Enter the WARP+ ID:")
-        userInput = input(f"({referrer}) is it correct? (y/n):")
-        if userInput == "y":
-            with open("referrer.txt","w") as file:
-                file.write(referrer)
-            trueInput = True
-    return referrer
+	trueInput = False
+	while not trueInput:
+		referrer = input("[#] Enter the WARP+ ID:")
+		userInput = input(f"({referrer}) is it correct? (y/n):")
+		if userInput == "y":
+			with open("referrer.txt","w") as file:
+				file.write(referrer)
+			trueInput = True
+	return referrer
 
 def genString(stringLength):
 	try:
@@ -76,20 +76,20 @@ def run():
 		print(error)	
 
 if pathlib.Path("referrer.txt").exists():
-    trueInput = False
-    while not trueInput:
-        userInput = input("Do you want to use saved WARP+ ID? (y/n):")
-        if userInput == "y":
-            with open("referrer.txt","r") as file:
-                referrer = file.read().strip()
-            trueInput = True
-        elif userInput == "n":
-            referrer = newID()
-            trueInput = True
-        else:
-            print(f"\"{userInput}\" is not a valid parameter.")
+	trueInput = False
+	while not trueInput:
+		userInput = input("Do you want to use saved WARP+ ID? (y/n):")
+		if userInput == "y":
+			with open("referrer.txt","r") as file:
+				referrer = file.read().strip()
+			trueInput = True
+		elif userInput == "n":
+			referrer = newID()
+			trueInput = True
+		else:
+			print(f"\"{userInput}\" is not a valid parameter.")
 else:
-    referrer = newID()
+	referrer = newID()
 
 g = 0
 b = 0
