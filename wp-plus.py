@@ -7,7 +7,8 @@ import time
 import os
 import sys
 import pathlib
-os.system('title WARP-PLUS-CLOUDFLARE By ALIILAPRO (version 3.0.0)' if os.name == 'nt' else 'PS1="\[\e]0;WARP-PLUS-CLOUDFLARE By ALIILAPRO (version 3.0.0)\a\]"; echo $PS1')
+windowTitle = "WARP-PLUS-CLOUDFLARE By ALIILAPRO (version 3.0.0)"
+os.system('title ' + windowTitle if os.name == 'nt' else 'PS1="\[\e]0;' + windowTitle + '\a\]"; echo $PS1')
 os.system('cls' if os.name == 'nt' else 'clear')
 print('      _______ _      __________________       _______ _______ _______ _______\n'
 '     (  ___  | \     \__   __|__   __( \     (  ___  |  ____ |  ____ |  ___  )\n'
