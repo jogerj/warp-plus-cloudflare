@@ -30,12 +30,22 @@ print ("--------")
 def newID():
 	trueInput = False
 	while not trueInput:
-		referrer = input("[#] Enter the WARP+ ID:")
-		userInput = input(f"({referrer}) is it correct? (y/n):")
+		referrer  = input("[#] Enter the WARP+ ID:")
+		userInput = input(f"[?] Your ID = ({referrer}) is it correct? (y/n):")
 		if userInput == "y":
-			with open("referrer.txt","w") as file:
-				file.write(referrer)
-			trueInput = True
+			saveid = input("[?] Do you want to save your ID? (y/n):")
+			if saveid == "y":
+			    with open("referrer.txt","w") as file:
+				    file.write(referrer)
+			    trueInput = True
+			elif saveid == "n":
+				return referrer
+			else:
+			    print(f"\"{saveid}\" is not a valid parameter.")
+		elif userInput == "n":
+			trueInput = False
+		else:
+			print(f"\"{userInput}\" is not a valid parameter.")			
 	return referrer
 
 def genString(stringLength):
@@ -79,7 +89,7 @@ def run():
 if pathlib.Path("referrer.txt").exists():
 	trueInput = False
 	while not trueInput:
-		userInput = input("Do you want to use saved WARP+ ID? (y/n):")
+		userInput = input("[?] Do you want to use saved WARP+ ID? (y/n):")
 		if userInput == "y":
 			with open("referrer.txt","r") as file:
 				referrer = file.read().strip()
