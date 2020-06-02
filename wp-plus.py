@@ -48,6 +48,24 @@ def newID():
 			print(f"\"{userInput}\" is not a valid parameter.")			
 	return referrer
 
+def progressBar():
+	completeSeq = False
+	c = 0
+	animation = ["[□□□□□□□□□□]","[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]"]
+	p = 0
+	s = animation[p % len(animation)]
+	while not completeSeq:
+		for i in range(10):
+			c += 1
+			sys.stdout.write(f"\r[+] Waiting response...  " + s + f" {c}%")
+			sys.stdout.flush()
+			time.sleep(0.06)
+		p += 1
+		s = animation[p % len(animation)]
+		if c == 100:
+			sys.stdout.write("\r[+] Request completed... [■■■■■■■■■■] 100%")
+			completeSeq = True
+
 def genString(stringLength):
 	try:
 		letters = string.ascii_letters + string.digits
@@ -84,6 +102,7 @@ def run():
 		status_code = response.getcode()	
 		return status_code
 	except Exception as error:
+		print("")
 		print(error)	
 
 if pathlib.Path("referrer.txt").exists():
@@ -105,28 +124,28 @@ else:
 g = 0
 b = 0
 while True:
+	os.system('cls' if os.name == 'nt' else 'clear')
+	print("")
+	print("                  WARP-PLUS-CLOUDFLARE (script)" + " By ALIILAPRO")
+	print("")
+	sys.stdout.write("\r[+] Sending request...   [□□□□□□□□□□] 0%")
+	sys.stdout.flush()
 	result = run()
 	if result == 200:
 		g += 1
-		os.system('cls' if os.name == 'nt' else 'clear')
-		print("")
-		print("                  WARP-PLUS-CLOUDFLARE (script)" + " By ALIILAPRO")
-		print("")
-		animation = ["[■□□□□□□□□□] 10%","[■■□□□□□□□□] 20%", "[■■■□□□□□□□] 30%", "[■■■■□□□□□□] 40%", "[■■■■■□□□□□] 50%", "[■■■■■■□□□□] 60%", "[■■■■■■■□□□] 70%", "[■■■■■■■■□□] 80%", "[■■■■■■■■■□] 90%", "[■■■■■■■■■■] 100%"] 
-		for i in range(len(animation)):
-			time.sleep(0.5)
-			sys.stdout.write("\r[+] Preparing... " + animation[i % len(animation)])
-			sys.stdout.flush()
+		progressBar()
 		print(f"\n[-] WORK ON ID: {referrer}")    
 		print(f"[:)] {g} GB has been successfully added to your account.")
 		print(f"[#] Total: {g} Good {b} Bad")
-		print("[*] After 18 seconds, a new request will be sent.")
-		time.sleep(18)
+		for i in range(18,0,-1):
+			sys.stdout.write(f"\r[*] After {i} seconds, a new request will be sent.")
+			sys.stdout.flush()
+			time.sleep(1)
 	else:
 		b += 1
-		os.system('cls' if os.name == 'nt' else 'clear')
-		print("")
-		print("                  WARP-PLUS-CLOUDFLARE (script)" + " By ALIILAPRO")
-		print("")
 		print("[:(] Error when connecting to server.")
 		print(f"[#] Total: {g} Good {b} Bad")
+		for i in range(10,0,-1):
+			sys.stdout.write(f"\r[*] Retrying in {i}s...")
+			sys.stdout.flush()
+			time.sleep(1)
