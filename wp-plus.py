@@ -7,8 +7,9 @@ import time
 import os
 import sys
 import pathlib
-windowTitle = "WARP-PLUS-CLOUDFLARE By ALIILAPRO (version 3.0.0)"
-os.system('title ' + windowTitle if os.name == 'nt' else 'PS1="\[\e]0;' + windowTitle + '\a\]"; echo $PS1')
+script_version = '3.0.0'
+window_title   = f"WARP-PLUS-CLOUDFLARE By ALIILAPRO (version {script_version})"
+os.system('title ' + window_title if os.name == 'nt' else 'PS1="\[\e]0;' + window_title + '\a\]"; echo $PS1')
 os.system('cls' if os.name == 'nt' else 'clear')
 print('      _______ _      __________________       _______ _______ _______ _______\n'
 '     (  ___  | \     \__   __|__   __( \     (  ___  |  ____ |  ____ |  ___  )\n'
@@ -20,7 +21,7 @@ print('      _______ _      __________________       _______ _______ _______ ___
 '     |/     \(_______|_______|_______(_______//     \|/      |/   \__(_______)\n')
 print ("[+] ABOUT SCRIPT:")
 print ("[-] With this script, you can getting unlimited GB on Warp+.")
-print ("[-] Version: 3.0.0")
+print (f"[-] Version: {script_version}")
 print ("--------")
 print ("[+] THIS SCRIPT CODDED BY ALIILAPRO") 
 print ("[-] SITE: aliilapro.github.io") 
@@ -28,43 +29,40 @@ print ("[-] TELEGRAM: aliilapro")
 print ("--------")
 
 def newID():
-	trueInput = False
-	while not trueInput:
+	while True:
 		referrer  = input("[#] Enter the WARP+ ID:")
-		userInput = input(f"[?] Your ID = ({referrer}) is it correct? (y/n):")
-		if userInput == "y":
-			saveid = input("[?] Do you want to save your ID? (y/n):")
-			if saveid == "y":
+		user_input = input(f"[?] Your ID = ({referrer}) is it correct? (y/n):")
+		if user_input == "y":
+			save_id = input("[?] Do you want to save your ID? (y/n):")
+			if save_id == "y":
 			    with open("referrer.txt","w") as file:
 				    file.write(referrer)
-			    trueInput = True
-			elif saveid == "n":
+			    return referrer
+			elif save_id == "n":
 				return referrer
 			else:
-			    print(f"\"{saveid}\" is not a valid parameter.")
-		elif userInput == "n":
-			trueInput = False
+			    print(f"\"{save_id}\" is not a valid parameter.")
+		elif user_input == "n":
+			user_input = None
 		else:
-			print(f"\"{userInput}\" is not a valid parameter.")			
-	return referrer
+			print(f"\"{user_input}\" is not a valid parameter.")
 
 def progressBar():
-	completeSeq = False
-	c = 0
-	animation = ["[□□□□□□□□□□]","[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]"]
-	p = 0
-	s = animation[p % len(animation)]
-	while not completeSeq:
+	animation     = ["[□□□□□□□□□□]","[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]"]
+	save_anim     = animation[progress_anim % len(animation)]
+	progress_anim = 0
+	percent       = 0
+	while True:
 		for i in range(10):
-			c += 1
-			sys.stdout.write(f"\r[+] Waiting response...  " + s + f" {c}%")
+			percent += 1
+			sys.stdout.write(f"\r[+] Waiting response...  " + save_anim + f" {percent}%")
 			sys.stdout.flush()
-			time.sleep(0.06)
-		p += 1
-		s = animation[p % len(animation)]
-		if c == 100:
+			time.sleep(0.75)
+		progress_anim += 1
+		save_anim = animation[progress_anim % len(animation)]
+		if percent == 100:
 			sys.stdout.write("\r[+] Request completed... [■■■■■■■■■■] 100%")
-			completeSeq = True
+			break
 
 def genString(stringLength):
 	try:
@@ -106,18 +104,17 @@ def run():
 		print(error)	
 
 if pathlib.Path("referrer.txt").exists():
-	trueInput = False
-	while not trueInput:
-		userInput = input("[?] Do you want to use saved WARP+ ID? (y/n):")
-		if userInput == "y":
+	while True:
+		user_input = input("[?] Do you want to use saved WARP+ ID? (y/n):")
+		if user_input == "y":
 			with open("referrer.txt","r") as file:
 				referrer = file.read().strip()
-			trueInput = True
-		elif userInput == "n":
+			break
+		elif user_input == "n":
 			referrer = newID()
-			trueInput = True
+			break
 		else:
-			print(f"\"{userInput}\" is not a valid parameter.")
+			print(f"\"{user_input}\" is not a valid parameter.")
 else:
 	referrer = newID()
 
