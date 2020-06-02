@@ -49,15 +49,15 @@ def newID():
 
 def progressBar():
 	animation     = ["[□□□□□□□□□□]","[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]"]
-	save_anim     = animation[progress_anim % len(animation)]
 	progress_anim = 0
+	save_anim     = animation[progress_anim % len(animation)]
 	percent       = 0
 	while True:
 		for i in range(10):
 			percent += 1
 			sys.stdout.write(f"\r[+] Waiting response...  " + save_anim + f" {percent}%")
 			sys.stdout.flush()
-			time.sleep(0.75)
+			time.sleep(0.075)
 		progress_anim += 1
 		save_anim = animation[progress_anim % len(animation)]
 		if percent == 100:
