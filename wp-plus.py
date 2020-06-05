@@ -79,8 +79,8 @@ def digitString(stringLength):
 url = f'https://api.cloudflareclient.com/v0a{digitString(3)}/reg'
 def run():
 	try:
-		install_id = genString(11)
-		body = {"key": "{}=".format(genString(42)),
+		install_id = genString(22)
+		body = {"key": "{}=".format(genString(43)),
 				"install_id": install_id,
 				"fcm_token": "{}:APA91b{}".format(install_id, genString(134)),
 				"referrer": referrer,
