@@ -7,10 +7,12 @@ import time
 import os
 import sys
 import pathlib
-script_version = '3.0.0'
-window_title   = f"WARP-PLUS-CLOUDFLARE By ALIILAPRO (version {script_version})"
-os.system('title ' + window_title if os.name == 'nt' else 'PS1="\[\e]0;' + window_title + '\a\]"; echo $PS1')
+
+script_version = '4.0.0'
+script_title   = f"WARP-PLUS-CLOUDFLARE script By ALIILAPRO (version {script_version})"
+os.system('title ' + script_title if os.name == 'nt' else 'PS1="\[\e]0;' + script_title + '\a\]"; echo $PS1')
 os.system('cls' if os.name == 'nt' else 'clear')
+
 print('      _______ _      __________________       _______ _______ _______ _______\n'
 '     (  ___  | \     \__   __|__   __( \     (  ___  |  ____ |  ____ |  ___  )\n'
 '     | (   ) | (        ) (     ) (  | (     | (   ) | (    )| (    )| (   ) |\n'
@@ -55,13 +57,16 @@ def progressBar():
 	while True:
 		for i in range(10):
 			percent += 1
-			sys.stdout.write(f"\r[+] Waiting response...  " + save_anim + f" {percent}%")
+			sys.stdout.write(f"\r[+] Sending request...  " + save_anim + f" {percent}%")
 			sys.stdout.flush()
-			time.sleep(0.075)
+			if result.is_alive():
+				time.sleep(0.1)
+			else:
+				time.sleep(0.005)
 		progress_anim += 1
 		save_anim = animation[progress_anim % len(animation)]
 		if percent == 100:
-			sys.stdout.write("\r[+] Request completed... [■■■■■■■■■■] 100%")
+			sys.stdout.write("\r[+] Received response.  [■■■■■■■■■■] 100%")
 			break
 
 def genString(stringLength):
@@ -70,38 +75,42 @@ def genString(stringLength):
 		return ''.join(random.choice(letters) for i in range(stringLength))
 	except Exception as error:
 		print(error)		    
+
 def digitString(stringLength):
 	try:
 		digit = string.digits
 		return ''.join((random.choice(digit) for i in range(stringLength)))    
 	except Exception as error:
-		print(error)	
+		print(error)
+
 url = f'https://api.cloudflareclient.com/v0a{digitString(3)}/reg'
-def run():
-	try:
-		install_id = genString(22)
-		body = {"key": "{}=".format(genString(43)),
-				"install_id": install_id,
-				"fcm_token": "{}:APA91b{}".format(install_id, genString(134)),
-				"referrer": referrer,
-				"warp_enabled": False,
-				"tos": datetime.datetime.now().isoformat()[:-3] + "+07:00",
-				"type": "Android",
-				"locale": "zh-CN"}
-		data = json.dumps(body).encode('utf8')
-		headers = {'Content-Type': 'application/json; charset=UTF-8',
+
+from threading import Thread
+
+class sendRequest(Thread):
+	def run(self):
+		try:
+			install_id  = genString(22)
+			body        = {"key": "{}=".format(genString(43)),
+					"install_id": install_id,
+					"fcm_token": "{}:APA91b{}".format(install_id, genString(134)),
+					"referrer": referrer,
+					"warp_enabled": False,
+					"tos": datetime.datetime.now().isoformat()[:-3] + "+07:00",
+					"type": "Android",
+					"locale": "zh-CN"}
+			data        = json.dumps(body).encode('utf8')
+			headers     = {'Content-Type': 'application/json; charset=UTF-8',
 					'Host': 'api.cloudflareclient.com',
 					'Connection': 'Keep-Alive',
 					'Accept-Encoding': 'gzip',
-					'User-Agent': 'okhttp/3.12.1'
-					}
-		req         = urllib.request.Request(url, data, headers)
-		response    = urllib.request.urlopen(req)
-		status_code = response.getcode()	
-		return status_code
-	except Exception as error:
-		print("")
-		print(error)	
+					'User-Agent': 'okhttp/3.12.1'}
+			req         = urllib.request.Request(url, data, headers)
+			response    = urllib.request.urlopen(req)
+			status_code = response.getcode()
+			self.status = status_code
+		except Exception as error:
+			self.status = error
 
 if pathlib.Path("referrer.txt").exists():
 	while True:
@@ -123,26 +132,27 @@ b = 0
 while True:
 	os.system('cls' if os.name == 'nt' else 'clear')
 	print("")
-	print("                  WARP-PLUS-CLOUDFLARE (script)" + " By ALIILAPRO")
+	print(f"                  {script_title}")
 	print("")
-	sys.stdout.write("\r[+] Sending request...   [□□□□□□□□□□] 0%")
-	sys.stdout.flush()
-	result = run()
-	if result == 200:
+	result = sendRequest()
+	result.start()
+	print(f"[-] WORK ON ID: {referrer}")
+	progressBar()
+	if result.status == 200:
 		g += 1
-		progressBar()
-		print(f"\n[-] WORK ON ID: {referrer}")    
+		print(f"\n[#] Total: {g} Good {b} Bad")
+		print("")
 		print(f"[:)] {g} GB has been successfully added to your account.")
-		print(f"[#] Total: {g} Good {b} Bad")
 		for i in range(18,0,-1):
 			sys.stdout.write(f"\r[*] After {i} seconds, a new request will be sent.")
 			sys.stdout.flush()
 			time.sleep(1)
 	else:
 		b += 1
-		print("[:(] Error when connecting to server.")
-		print(f"[#] Total: {g} Good {b} Bad")
-		for i in range(10,0,-1):
-			sys.stdout.write(f"\r[*] Retrying in {i}s...")
+		print(f"\n[#] Total: {g} Good {b} Bad")
+		print("")
+		print("[:(] Error when connecting to server: " + str(result.status))
+		for i in range(18,0,-1):
+			sys.stdout.write(f"\r[*] Retrying again in {i} seconds...")
 			sys.stdout.flush()
 			time.sleep(1)
